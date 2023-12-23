@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const url = await fetch(
@@ -20,8 +20,41 @@ export default function MovieId() {
   console.log(data);
 
   return (
-    <div>
-      <h3>Hello from the movie id</h3>
+    <div className="min-h-screen p-10">
+      <img
+        src={`https://image.tmdb.org/t/p/original${data.backdrop_path}`}
+        alt=""
+        className="h-[40vh] object-cover w-full rounded-lg"
+      />
+
+      <h1 className="text-4xl font-bold text-center pt-5">{data.title}</h1>
+
+      <div className="flex gap-x-10 mt-10">
+        <div className="w-1/2 font-medium">
+          <h2>
+            <span className="underline">Homepage:</span> {" "}
+            <Link to={data.homepage} rel="noreferrer" target="_blank">
+              Link
+            </Link>
+          </h2>
+
+          <p>
+            <span className="underline">Original Language:</span> {" "} {data.original_language}
+          </p>
+
+          <p>
+            <span className="underline">Overview:</span> {" "} {data.overview}
+          </p>
+
+          <p>
+            <span className="underline">Release Date:</span> {" "} {data.release_date}
+          </p>
+
+          <p>
+            <span className="underline">Original Language:</span> {" "} {data.original_language}
+          </p>
+        </div>
+      </div>
     </div>
   )
 }
