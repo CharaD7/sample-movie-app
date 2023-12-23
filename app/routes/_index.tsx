@@ -1,5 +1,5 @@
 import { json, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -24,7 +24,6 @@ export async function loader({}: LoaderFunctionArgs) {
 
 export default function Index() {
   const data = useLoaderData();
-  console.log(data)
 
   return (
     <div className="bg-white py-6 lg:py-12">
@@ -38,8 +37,26 @@ export default function Index() {
         </div>
 
         {/* Movie grid */}
-        <div className="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8"></div>
-{/* eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMDhlODlhNGM0ZTY1MzU1MTM4ZjIzOWMwNGE3NGI4NyIsInN1YiI6IjY1ODVlZmYzNDc3MjE1NWEwYjQzMTVlMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.SbO_hqJUwSCFfXS2cJbJP6vimpPrQHin6YKLihlBq3U */}
+        <div className="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
+          { data.results.map((movie: any) => (
+            <div
+              className="flex flex-col overflow-hidden rounded-lg border bg-white"
+              key={movie.id}
+            >
+              <Link
+                prefetch="intent"
+                className="group relative block h-48 overflow-hidden bg-gray-100 md:h-64"
+                to={`movie/${movie.id}/comments`}
+              >
+                <img
+                  src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover transition duration-200 group-hover:scale-110"
+                />
+              </Link>
+            </div>
+          )) }
+        </div>
 
       </div>
     </div>
