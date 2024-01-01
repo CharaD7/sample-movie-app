@@ -1,14 +1,26 @@
-import { LoaderFunctionArgs, json } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { Form, useLoaderData, useParams } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 
-export async function action({ params }: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const data = await db.comment.findMany({
     where: {
       movieId: params.id,
     },
     orderBy: {
       createdAt: "desc",
+    }
+  });
+
+  return json({ data });
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const data = await db.comment.create({
+    data: {
+      message: formData.get("comment") as string,
+      movieId: formData.get("id") as string,
     }
   });
 
