@@ -1,5 +1,6 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { Form, useLoaderData, useParams } from "@remix-run/react";
+import { useState } from "react";
 import { db } from "~/utils/db.server";
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -40,14 +41,21 @@ export default function Comments() {
   const { id } = useParams();
   const loaderData = useLoaderData() as loaderData;
   const data = loaderData?.data || [];
+  const [comment, setComment] = useState<string>("");
+
+  const handleSubmit = () => {
+    if (!comment.trim()) return;
+
+    setComment("");
+  };
 
   return (
     <div className="rounded-lg border p-3">
       <h3 className="text-xl font-semibold mb-5">Your opinion</h3>
 
       <div>
-        <Form method="post">
-          <textarea name="comment" className="w-full border border-teal-500 rounded-lg p-2"></textarea>
+        <Form method="post" onSubmit={handleSubmit}>
+          <textarea name="comment" value={comment} onChange={(e) => setComment(e.target.value)} className="w-full border border-teal-500 rounded-lg p-2"></textarea>
           <input type="hidden" name="id" value={id} />
           <button type="submit" className="bg-teal-500 px-4 py-2 rounded-lg text-white">Add Comment</button>
         </Form>
