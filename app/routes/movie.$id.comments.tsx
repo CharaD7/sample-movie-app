@@ -61,9 +61,9 @@ export default function Comments() {
           <input type="hidden" name="id" value={id} />
 
           { navigation.state === "submitting" ? (
-            <button type="button" disabled className="bg-teal-500 px-4 py-2 rounded-lg text-white">Loading...</button>
+            <button type="button" disabled className="bg-teal-500 px-4 mt-4 py-2 rounded-lg text-white">Loading...</button>
           ) : (
-            <button type="submit" className="bg-teal-500 px-4 py-2 rounded-lg text-white">Add Comment</button>
+            <button type="submit" className="bg-teal-500 px-4 mt-4 py-2 rounded-lg text-white">Add Comment</button>
           )}
 
         </Form>
